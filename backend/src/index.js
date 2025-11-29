@@ -36,13 +36,14 @@ app.use(cookieParser());
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
 
-// ✅ ✅ ✅ PRODUCTION FRONTEND SERVE (EXPRESS v5 SAFE)
+// ✅ ✅ ✅ PRODUCTION FRONTEND SERVE (SAFE)
 if (process.env.NODE_ENV === "production") {
   const frontendDist = path.join(__dirname, "../frontend/dist");
 
   app.use(express.static(frontendDist));
 
-  app.get("/*", (req, res) => {
+  // ✅ REGEX BASED ROUTE (path-to-regexp SAFE)
+  app.get(/.*/, (req, res) => {
     res.sendFile(path.join(frontendDist, "index.html"));
   });
 }
